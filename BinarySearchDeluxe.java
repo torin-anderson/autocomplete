@@ -8,35 +8,26 @@ public class BinarySearchDeluxe {
         if (a == null || key == null || comparator == null) {
             throw new IllegalArgumentException();
         }
-
         int low = 0;
         int high = a.length - 1;
+        int firstIndex = -1;
         while (low <= high) {
-            int mid = (high - low) / 2 + low;
-            if (comparator.compare(key, a[mid]) < 0) { // less than mid position
+            int mid = (high + low) / 2;
+            if (a[mid] == null) {
+                throw new IllegalArgumentException("Array contains a null element.");
+            }
+            else if (comparator.compare(key, a[mid]) < 0) { // less than mid position
                 high = mid - 1;
             }
             else if (comparator.compare(key, a[mid]) > 0) { // greater than mid position
                 low = mid + 1;
             }
             else { // if key is equal to mid
-
-                if (mid == 0) { // if key is first item
-                    return mid;
-                }
-                else if (comparator.compare(key, a[mid - 1])
-                        > 0) // check if previous key is less than key
-                {
-                    return mid;
-                }
-                else // if previous is equal to or greater than key
-                {
-                    high = mid - 1;
-                }
+                high = mid - 1;
+                firstIndex = mid;
             }
         }
-
-        return -1;
+        return firstIndex;
     }
 
     // Returns the index of the last key in the sorted array a[]
@@ -48,38 +39,31 @@ public class BinarySearchDeluxe {
 
         int low = 0;
         int high = a.length - 1;
-        int length = a.length - 1;
+        int lastIndex = -1;
 
         while (low <= high) {
-            int mid = (high - low) / 2 + low;
-            if (comparator.compare(key, a[mid]) < 0) { // less than mid position
+            int mid = (high + low) / 2;
+            if (a[mid] == null) {
+                throw new IllegalArgumentException("Array contains a null element.");
+            }
+            else if (comparator.compare(key, a[mid]) < 0) { // less than mid position
                 high = mid - 1;
             }
             else if (comparator.compare(key, a[mid]) > 0) { // greater than mid position
                 low = mid + 1;
             }
             else { // if key is equal to mid
-                if (mid == length) { // if key is all the way to the right. (last key)
-                    return mid;
-
-                }
-                else if (comparator.compare(key, a[mid + 1]) < 0) // Next position greater?
-                {
-                    return mid;
-                }
-                else // if next item is also equal/less
-                {
-                    low = mid + 1;
-                }
+                low = mid + 1;
+                lastIndex = mid;
             }
         }
 
 
-        return -1;
+        return lastIndex;
     }
 
     // unit testing (required)
     public static void main(String[] args) {
-
+        BinarySearchDeluxe b = new BinarySearchDeluxe();
     }
 }
